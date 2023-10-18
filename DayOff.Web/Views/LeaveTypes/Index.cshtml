@@ -7,7 +7,7 @@
 <h1>Leave Types</h1>
 
 <p>
-    <a asp-action="Create" class="btn btn-success btn-sm">Create New</a>
+    <a asp-action="Create" class="btn btn-success btn-sm"><i class="fa-solid fa-add"></i> Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -47,6 +47,8 @@
 @section Scripts{
     <script>
         $(function () {
+            // use bootstrap data table
+            $(".table").DataTable();
             $(".deleteBtn").click(function (e) {
                 swal({
                     title: "Are you sure?",
