@@ -1,12 +1,15 @@
 ﻿using AutoMapper;
+using DayOff.Web.Constants;
 using DayOff.Web.Contracts;
 using DayOff.Web.Data;
 using DayOff.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace DayOff.Web.Controllers
 {
+    [Authorize(Roles = Roles.Administrator)]
     public class LeaveTypesController : Controller // inherits controller
     {
         // dependency injection
