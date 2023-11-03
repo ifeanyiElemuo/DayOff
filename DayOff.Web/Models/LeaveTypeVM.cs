@@ -5,6 +5,7 @@ namespace DayOff.Web.Models
     public class LeaveTypeVM
     {
         public int Id { get; set; }
+
         [Display(Name = "Leave Name")]
         public required string Name { get; set; }
 

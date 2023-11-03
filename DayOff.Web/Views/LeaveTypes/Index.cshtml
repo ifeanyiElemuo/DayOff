@@ -31,6 +31,7 @@
                 @Html.DisplayFor(modelItem => item.DefaultDays)
             </td>
             <td>
+                    <button type="button" class="btn btn-primary btn-sm allocateBtn" data-id="@item.Id">Allocate Leave</button> |
                     <a asp-action="Edit" class="btn btn-warning btn-sm" asp-route-id="@item.Id"><i class="fa-solid fa-pencil"></i></a> |
                     <a asp-action="Details" class="btn btn-info btn-sm" asp-route-id="@item.Id"><i class="fa-solid fa-circle-info fa-lg"></i></a> |
                     <button type="button" class="btn btn-danger btn-sm deleteBtn" data-id="@item.Id"><i class="fa-solid fa-trash"></i></button>
@@ -41,14 +42,16 @@
 </table>
 
 <form id="deleteForm" asp-action="Delete">
-    <input id="leaveTypeId" type="hidden" name="Id" />
+    <input id="leaveTypeIdDel" type="hidden" name="Id" />
+</form>
+
+<form id="allocationForm" asp-action="AllocateLeave">
+    <input id="leaveTypeIdAllocate" type="hidden" name="Id" />
 </form>
 
 @section Scripts{
     <script>
         $(function () {
-            // use bootstrap data table
-            $(".table").DataTable();
             $(".deleteBtn").click(function (e) {
                 swal({
                     title: "Are you sure?",
@@ -59,8 +62,24 @@
                 }).then((confirm) => {
                     if (confirm) {
                         var id = $(this).attr("data-id");
-                        $("#leaveTypeId").val(id);
+                        $("#leaveTypeIdDel").val(id);
                         $("#deleteForm").submit();
+                    }
+                })
+            })
+
+            $(".allocateBtn").click(function (e) {
+                swal({
+                    title: "Are you sure?",
+                    text: "Are you sure you want to allocate this leave to all employees?",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true
+                }).then((confirm) => {
+                    if (confirm) {
+                        var id = $(this).attr("data-id");
+                        $("#leaveTypeIdAllocate").val(id);
+                        $("#allocationForm").submit();
                     }
                 })
             })

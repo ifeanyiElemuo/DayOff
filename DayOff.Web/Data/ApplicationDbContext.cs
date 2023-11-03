@@ -1,6 +1,7 @@
 ﻿using DayOff.Web.Configurations.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using DayOff.Web.Models;
 
 namespace DayOff.Web.Data
 {
