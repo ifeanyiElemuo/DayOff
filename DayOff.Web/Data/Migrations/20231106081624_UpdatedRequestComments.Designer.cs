@@ -4,6 +4,7 @@ using DayOff.Web.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DayOff.Web.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231106081624_UpdatedRequestComments")]
+    partial class UpdatedRequestComments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -106,7 +109,7 @@ namespace DayOff.Web.Data.Migrations
                         {
                             Id = "18578dda-fd1e-4d21-9380-78dc83af61fb",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "cb675b05-4626-46f5-90c1-2dd0c19f8609",
+                            ConcurrencyStamp = "8b4be3e9-8a6e-4a89-bb68-af21426e1a0e",
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateofBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "admin@localhost.com",
@@ -116,9 +119,9 @@ namespace DayOff.Web.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKBPxOzwpCwj1Cn1q8JzDWB5EpO0dVTgeQTn0Wwae5lER0WO+kXw5z+xRi+jvJBoRg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENnWzPTrEiWbEOmMctUETW98NJy4bkaXj6JmnkG5VZiKELTiS4DAI0gSd/6fvpVbVA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "cc4a030a-a42b-4ee4-91f3-4f41e10e338c",
+                            SecurityStamp = "3ae2be3b-2b4d-4f5e-80c1-f9f6a17f1325",
                             TwoFactorEnabled = false,
                             UserName = "admin@localhost.com"
                         },
@@ -126,7 +129,7 @@ namespace DayOff.Web.Data.Migrations
                         {
                             Id = "75818bbc-ef2c-1b34-0983-65ab79ed17cd",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "24ea397c-a350-4020-a9fd-bb6680885539",
+                            ConcurrencyStamp = "01e4f2bb-d6c3-4a64-b377-f2351844d768",
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateofBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "user@localhost.com",
@@ -136,9 +139,9 @@ namespace DayOff.Web.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER@LOCALHOST.COM",
                             NormalizedUserName = "USER@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPxdz7wlg9qwhze14BgB8oVSW8fExNPmpHsmwUraDec103OT1K/dDqlB0yaV/ZAWZA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBQw+tIEJsjWvL+PPMI5A0B8VNx5vAoX03kgf800P0FO4p8AyhdMFmMxI4YVVNqESg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "fd0d3459-d810-4762-9e66-62ae3829ec2b",
+                            SecurityStamp = "a98087bd-ac80-4d9b-b3ca-49498b99585d",
                             TwoFactorEnabled = false,
                             UserName = "user@localhost.com"
                         });
@@ -197,9 +200,6 @@ namespace DayOff.Web.Data.Migrations
 
                     b.Property<DateTime>("DateRequested")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("DaysRequested")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");

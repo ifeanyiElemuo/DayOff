@@ -4,4 +4,7 @@
 // Write your JavaScript code.
 $(function () {
     $(".table").DataTable();
+    $(".datepicker").datepicker({
+        dateFormat: "yy-mm-dd"
+    });
 });

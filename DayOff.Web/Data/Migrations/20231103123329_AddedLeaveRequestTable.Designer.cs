@@ -4,6 +4,7 @@ using DayOff.Web.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,13 +12,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DayOff.Web.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231103123329_AddedLeaveRequestTable")]
+    partial class AddedLeaveRequestTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.12")
+                .HasAnnotation("ProductVersion", "7.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -106,7 +109,7 @@ namespace DayOff.Web.Data.Migrations
                         {
                             Id = "18578dda-fd1e-4d21-9380-78dc83af61fb",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "cb675b05-4626-46f5-90c1-2dd0c19f8609",
+                            ConcurrencyStamp = "0ddaa93f-5be4-43a0-9bba-316ad2402fc8",
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateofBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "admin@localhost.com",
@@ -116,9 +119,9 @@ namespace DayOff.Web.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKBPxOzwpCwj1Cn1q8JzDWB5EpO0dVTgeQTn0Wwae5lER0WO+kXw5z+xRi+jvJBoRg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIXcLmQM/cBCuCGhzd1x2pYZkXz1LgKxmx/NH/TDLwrafqUVXo9B8yRjFAZXZZWFnw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "cc4a030a-a42b-4ee4-91f3-4f41e10e338c",
+                            SecurityStamp = "23997ddd-8e48-4be2-97dc-699e963b6dc7",
                             TwoFactorEnabled = false,
                             UserName = "admin@localhost.com"
                         },
@@ -126,7 +129,7 @@ namespace DayOff.Web.Data.Migrations
                         {
                             Id = "75818bbc-ef2c-1b34-0983-65ab79ed17cd",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "24ea397c-a350-4020-a9fd-bb6680885539",
+                            ConcurrencyStamp = "be3c3e42-6036-4875-92df-0e1a42a7d4bc",
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateofBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "user@localhost.com",
@@ -136,9 +139,9 @@ namespace DayOff.Web.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER@LOCALHOST.COM",
                             NormalizedUserName = "USER@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPxdz7wlg9qwhze14BgB8oVSW8fExNPmpHsmwUraDec103OT1K/dDqlB0yaV/ZAWZA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFCE4kM4zVPUZoAwcvcIrsZZMG72KQ/RKdhyY5X6kzJ5VajsZKLgH4VxOkF6os/asw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "fd0d3459-d810-4762-9e66-62ae3829ec2b",
+                            SecurityStamp = "907995cf-07dd-4f88-9f5f-6bce5b71d36b",
                             TwoFactorEnabled = false,
                             UserName = "user@localhost.com"
                         });
@@ -198,9 +201,6 @@ namespace DayOff.Web.Data.Migrations
                     b.Property<DateTime>("DateRequested")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("DaysRequested")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
@@ -208,6 +208,7 @@ namespace DayOff.Web.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("RequestComments")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RequestingEmployeeId")
