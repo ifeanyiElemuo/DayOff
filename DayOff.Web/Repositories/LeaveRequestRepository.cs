@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
 using DayOff.Web.Contracts;
-using DayOff.Web.Controllers;
 using DayOff.Web.Data;
 using DayOff.Web.Models;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.EntityFrameworkCore;
 
 namespace DayOff.Web.Repositories
@@ -107,7 +105,7 @@ namespace DayOff.Web.Repositories
         {
             var user = await userManager.GetUserAsync(httpContextAccessor?.HttpContext?.User);
             var allocations = (await leaveAllocationRepository.GetEmployeeAllocations(user.Id)).LeaveAllocations;
-            var requests = mapper.Map<List<LeaveRequestVM>> (await GetAllAsync(user.Id));
+            var requests = mapper.Map<List<LeaveRequestVM>>(await GetAllAsync(user.Id));
 
             var model = new EmployeeLeaveRequestViewVM(allocations, requests);
 

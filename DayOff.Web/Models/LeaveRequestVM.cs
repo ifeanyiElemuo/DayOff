@@ -10,9 +10,9 @@ namespace DayOff.Web.Models
         public LeaveTypeVM LeaveType { get; set; }
 
         [Display(Name = "Date Requested")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
+        [DataType(DataType.Date)]
         public DateTime DateRequested { get; set; }
-
-        [Display(Name = "Days Requested")]
 
         public string? RequestComments { get; set; }
 

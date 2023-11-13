@@ -1,18 +1,20 @@
-﻿using DayOff.Web.Data;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DayOff.Web.Models
 {
     public class LeaveRequestCreateVM : IValidatableObject
     {
         [Required]
-        [Display (Name = "Start Date")]
+        [Display(Name = "Start Date")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
+        [DataType(DataType.Date)]
         public DateTime? StartDate { get; set; }
 
         [Required]
         [Display(Name = "End Date")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
+        [DataType(DataType.Date)]
         public DateTime? EndDate { get; set; }
 
         [Required]
@@ -32,7 +34,7 @@ namespace DayOff.Web.Models
 
             if (RequestComments?.Length > 250)
             {
-                yield return new ValidationResult("Maximum characters exceeded", new[] { nameof(RequestComments)} );
+                yield return new ValidationResult("Maximum characters exceeded", new[] { nameof(RequestComments) });
             }
         }
     }
