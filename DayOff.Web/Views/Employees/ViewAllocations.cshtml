@@ -37,38 +37,38 @@
 </div>
 <hr />
 <div class="card" style="width: 75%;">
-    <div class="card-header">
-        <h4>Leave Allocations</h4>
-    </div>
-    <ul class="list-group list-group-flush">
-        <li class="list-group-item">
-            <div class="row">
-                <div class="col">Leave Name</div>
-                <div class="col">Allocated Days</div>
-                <div class="col">Days Left</div>
-                <div class="col">Action</div>
-            </div>
-        </li>
-        @foreach (var allocation in Model.LeaveAllocations)
-        {
+    <div class="card-body">
+        <h2>Leave Allocations</h2>
+        <ul class="list-group list-group-flush">
             <li class="list-group-item">
                 <div class="row">
-                    <div class="col">
-                        <h5>@allocation.LeaveType.Name</h5>
-                    </div>
-                    <div class="col">
-                        <span class="badge bg-success">@allocation.LeaveType.DefaultDays</span>
-                    </div>
-                    <div class="col">
-                        <span class="badge bg-danger">@allocation.NumberOfDays</span>
-                    </div>
-                    <div class="col">
-                        <a asp-action="EditAllocation" class="btn btn-warning btn-sm" asp-route-id="@allocation.Id"><i class="fa-solid fa-pencil"></i> Edit Allocation</a>
-                    </div>
+                    <div class="col">Leave Name</div>
+                    <div class="col">Allocated Days</div>
+                    <div class="col">Days Left</div>
+                    <div class="col">Action</div>
                 </div>
             </li>
-        }
-    </ul>
+            @foreach (var allocation in Model.LeaveAllocations)
+            {
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col">
+                            <h5>@allocation.LeaveType.Name</h5>
+                        </div>
+                        <div class="col">
+                            <span class="badge bg-success">@allocation.LeaveType.DefaultDays</span>
+                        </div>
+                        <div class="col">
+                            <span class="badge bg-danger">@allocation.NumberOfDays</span>
+                        </div>
+                        <div class="col">
+                            <a asp-action="EditAllocation" class="btn btn-warning btn-sm" asp-route-id="@allocation.Id"><i class="fa-solid fa-pencil"></i> Edit Allocation</a>
+                        </div>
+                    </div>
+                </li>
+            }
+        </ul>
+    </div>
 </div>
 <br />
 <div>

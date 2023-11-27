@@ -3,6 +3,7 @@ using DayOff.Web.Contracts;
 using DayOff.Web.Data;
 using DayOff.Web.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace DayOff.Web.Repositories
@@ -12,18 +13,21 @@ namespace DayOff.Web.Repositories
         private readonly ApplicationDbContext context;
         private readonly IMapper mapper;
         private readonly IHttpContextAccessor httpContextAccessor;
+        private readonly IEmailSender emailSender;
         private readonly ILeaveAllocationRepository leaveAllocationRepository;
         private readonly UserManager<Employee> userManager;
 
         public LeaveRequestRepository(ApplicationDbContext context,
             IMapper mapper,
             IHttpContextAccessor httpContextAccessor,
+            IEmailSender emailSender,
             ILeaveAllocationRepository leaveAllocationRepository,
             UserManager<Employee> userManager) : base(context)
         {
             this.context = context;
             this.mapper = mapper;
             this.httpContextAccessor = httpContextAccessor;
+            this.emailSender = emailSender;
             this.leaveAllocationRepository = leaveAllocationRepository;
             this.userManager = userManager;
         }
@@ -33,6 +37,12 @@ namespace DayOff.Web.Repositories
             var leaveRequest = await GetAsync(leaveRequestId);
             leaveRequest.Cancelled = true;
             await UpdateAsync(leaveRequest);
+
+            var user = await userManager.FindByIdAsync(leaveRequest.RequestingEmployeeId);
+
+            await emailSender.SendEmailAsync(user.Email, $"Leave Request Cancelled!",
+                $"Your {leaveRequest.LeaveType} leave request from {leaveRequest.StartDate} to " +
+                $"{leaveRequest.EndDate} has been cancelled!");
         }
 
         public async Task ChangeApprovalStatus(int leaveRequestId, bool approved)
@@ -49,6 +59,13 @@ namespace DayOff.Web.Repositories
                 await leaveAllocationRepository.UpdateAsync(allocation);
             }
             await UpdateAsync(leaveRequest);
+
+            var user = await userManager.FindByIdAsync(leaveRequest.RequestingEmployeeId);
+            var approvalStatus = approved ? "Approved" : "Denied";
+
+            await emailSender.SendEmailAsync(user.Email, $"Leave Request {approvalStatus}!",
+                $"Your {leaveRequest.LeaveType} leave request from {leaveRequest.StartDate} to " +
+                $"{leaveRequest.EndDate} has been {approvalStatus.ToLower()}!");
         }
 
         public async Task<bool> CreateLeaveRequest(LeaveRequestCreateVM model)
@@ -72,6 +89,10 @@ namespace DayOff.Web.Repositories
             leaveRequest.RequestingEmployeeId = user.Id;
 
             await AddAsync(leaveRequest);
+
+            await emailSender.SendEmailAsync(
+                user.Email, "Leave Request Submitted Successfully",
+                $"Your leave request from {leaveRequest.StartDate} to {leaveRequest.EndDate} has been submitted for approval!");
 
             return true;
         }

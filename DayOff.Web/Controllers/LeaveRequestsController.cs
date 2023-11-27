@@ -19,11 +19,14 @@ namespace DayOff.Web.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly ILeaveRequestRepository leaveRequestRepository;
+        private readonly ILogger<LeaveRequestsController> logger;
 
-        public LeaveRequestsController(ApplicationDbContext context, ILeaveRequestRepository leaveRequestRepository)
+        public LeaveRequestsController(ApplicationDbContext context, 
+            ILeaveRequestRepository leaveRequestRepository, ILogger<LeaveRequestsController> logger)
         {
             _context = context;
             this.leaveRequestRepository = leaveRequestRepository;
+            this.logger = logger;
         }
 
         // GET: LeaveRequests
@@ -61,6 +64,7 @@ namespace DayOff.Web.Controllers
             }
             catch (Exception ex)
             {
+                logger.LogError(ex, "Error Approving Leave Request");
                 throw;
             }
             return RedirectToAction(nameof(Index));
@@ -76,6 +80,7 @@ namespace DayOff.Web.Controllers
             }
             catch (Exception ex)
             {
+                logger.LogError(ex, "Error Cancelling Leave Request");
                 throw;
             }
             return RedirectToAction(nameof(MyLeave));

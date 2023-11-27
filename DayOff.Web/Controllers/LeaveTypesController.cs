@@ -79,7 +79,7 @@ namespace DayOff.Web.Controllers
             }
 
             // Convert database result to view model
-            var  leaveTypeVM = mapper.Map<LeaveTypeVM>(leaveType);
+            var leaveTypeVM = mapper.Map<LeaveTypeVM>(leaveType);
             return View(leaveTypeVM);
         }
 
@@ -95,12 +95,19 @@ namespace DayOff.Web.Controllers
                 return NotFound();
             }
 
+            // get leave type from database
+            var leaveType = await leaveTypeRepository.GetAsync(id);
+            if (leaveType == null)
+            {
+                return NotFound();
+            }
+
             if (ModelState.IsValid)
             {
                 try
                 {
-                    // Convert from leaveTypeVM to leaveType for database call
-                    var leaveType = mapper.Map<LeaveType>(leaveTypeVM);
+                    // map leaveType from database call to leaveTypeVM
+                    mapper.Map(leaveTypeVM, leaveType);
                     await leaveTypeRepository.UpdateAsync(leaveType);
                 }
                 catch (DbUpdateConcurrencyException)

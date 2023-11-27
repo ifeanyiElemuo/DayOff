@@ -1,0 +1,233 @@
+﻿@using DayOff.Web.Constants;
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<Employee> SignInManager
+@inject UserManager<Employee> UserManager
+
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - DayOff Leave Manager</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    @* <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" /> *@
+    <link rel="stylesheet" href="~/css/style.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/DayOff.Web.styles.css" asp-append-version="true" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description"
+          content="Employee Leave Management System on .Net 7">
+    <meta name="robots" content="noindex,nofollow">
+    <title>Ample Admin Lite Template by WrapPixel</title>
+    <link rel="canonical" href="https://www.wrappixel.com/templates/ample-admin-lite/" />
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <div class="lds-ripple">
+            <div class="lds-pos"></div>
+            <div class="lds-pos"></div>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
+         data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        <header class="topbar" data-navbarbg="skin5">
+            <nav class="navbar top-navbar navbar-expand-md navbar-dark">
+                <div class="navbar-collapse collapse" id="navbarSupportedContent" data-navbarbg="skin5">
+                    <!-- ============================================================== -->
+                    <!-- Right side toggle and nav items -->
+                    <!-- ============================================================== -->
+                    <span>
+                        <a class="container navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">DayOff Web - Net 7</a>
+                    </span>
+                    <ul class="navbar-nav ms-auto d-flex align-items-center">
+                        <!-- ============================================================== -->
+                        <!-- User profile -->
+                        <!-- ============================================================== -->
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <li class="nav-item">
+                                <h5 class="text-white">Hello, @User.Identity?.Name!</h5>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark pro-pic" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img src="~/images/users/1.jpg" alt="user" class="rounded-circle" width="31">
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end user-dd animated" aria-labelledby="navbarDropdown">
+                                    <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                        <button type="submit" class="nav-link btn btn-link text-danger">
+                                            <i class="fa-solid fa-power-off m-r-5 m-l-5"></i>&nbsp;
+                                            Logout
+                                        </button>
+                                    </form>
+                                </ul>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-area="Identity" asp-page="/Account/Register">Register</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                            </li>
+                        }
+                        <!-- ============================================================== -->
+                        <!-- User profile -->
+                        <!-- ============================================================== -->
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <!-- ============================================================== -->
+        <!-- End Topbar header -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <aside class="left-sidebar" data-sidebarbg="skin6">
+            <!-- Sidebar scroll-->
+            <div class="scroll-sidebar">
+                <!-- Sidebar navigation-->
+                <nav class="sidebar-nav">
+                    <ul id="sidebarnav">
+                        <!-- User Profile-->
+                        
+                        @if (User.IsInRole(Roles.User) || User.IsInRole(Roles.Administrator))
+                        {
+                            <li class="sidebar-item pt-2">
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" asp-area="" asp-controller="Home" asp-action="Index"
+                                    aria-expanded="false">
+                                    <i class="fa-solid fa-house fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;
+                                    <span class="hide-menu">Home</span>
+                                </a>
+                            </li>
+                        }
+                        @if (User.IsInRole(Roles.User))
+                        {
+                            <li class="sidebar-item pt-2">
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" asp-area="" asp-controller="LeaveRequests" asp-action="Create"
+                                   aria-expanded="false">
+                                    <i class="fa-solid fa-paper-plane fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;
+                                    <span class="hide-menu">Book Leave</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item pt-2">
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" asp-area="" asp-controller="LeaveRequests" asp-action="MyLeave"
+                                   aria-expanded="false">
+                                    <i class="fa-solid fa-list-check fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;
+                                    <span class="hide-menu">My Leave</span>
+                                </a>
+                            </li>
+                        }
+                        @if (User.IsInRole(Roles.Administrator))
+                        {
+                            <li class="sidebar-item pt-2">
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" asp-area="" asp-controller="Employees" asp-action="Index"
+                                   aria-expanded="false">
+                                    <i class="fa-solid fa-people-group fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;
+                                    <span class="hide-menu">Employees</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item pt-2">
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" asp-area="" asp-controller="LeaveTypes" asp-action="Index"
+                                   aria-expanded="false">
+                                    <i class="fa-solid fa-gears fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;
+                                    <span class="hide-menu">Leave Types</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item pt-2">
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" asp-area="" asp-controller="LeaveRequests" asp-action="Index"
+                                   aria-expanded="false">
+                                    <i class="fa-solid fa-list-check fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;
+                                    <span class="hide-menu">LeaveRequests</span>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+
+                </nav>
+                <!-- End Sidebar navigation -->
+            </div>
+            <!-- End Sidebar scroll-->
+        </aside>
+        <!-- ============================================================== -->
+        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Page wrapper  -->
+        <!-- ============================================================== -->
+        <div class="page-wrapper" style="min-height: 250px;">
+            <!-- ============================================================== -->
+            <!-- Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+            
+            <!-- ============================================================== -->
+            <!-- End Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
+                <div class="row">
+                    @RenderBody()              
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            <footer class="footer text-center">
+                2021 © Ample Admin brought to you by <a href="https://www.wrappixel.com/">wrappixel.com</a>
+            </footer>
+            <!-- ============================================================== -->
+            <!-- End footer -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/font-awesome/js/all.min.js"></script>
+    <script src="~/lib/sweetalert/sweetalert.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+    <!--Wave Effects -->
+    <script src="~/js/waves.js"></script>
+    <!--Menu sidebar -->
+    <script src="~/js/sidebarmenu.js"></script>
+    <!--Custom JavaScript -->
+    <script src="~/js/custom.js"></script>
+</body>
+
+</html>
